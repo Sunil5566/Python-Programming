@@ -27,3 +27,21 @@ num3.showNumber()
 
 
 
+#Create a class called order which stores items and its price.
+#Use Dunder function __get__() to convey that:
+# order1> order2 if price of order1 > price of order2
+
+class order:
+    def __init__(self, items, price):
+        self.items = items
+        self.price = price
+
+    def __gt__(self, ord2):
+        return self.price > ord2.price
+         
+                   
+
+order1  = order("Chips", "20")                   
+order2  = order("tea", "200")
+
+print(order1 > order2)  #false
