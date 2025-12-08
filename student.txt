@@ -1,0 +1,1 @@
+Name: Sunil, Roll: 24, Class: 12, Marks: {'Maths': 89, 'Science': 7, 'Social': 6, 'Gk': 78}, Percentage: 45.00, Grade: Fail

@@ -62,7 +62,7 @@ Methods: calculate_percentage(), assign_grade(), show_report().
 
 Store multiple students in a list.
 
-7. Add Features
+`7. Add Features
 
 Ask the user whether they want to:
 
@@ -74,7 +74,7 @@ Search a student by name or roll number
 
 Exit program
 
-Use while loop and menu-driven system.
+Use while loop and menu-driven system.`
 
 8. Handle Errors
 
@@ -158,7 +158,7 @@ for Subject, score in marks.items():
 
 
 def calculate_total(marks):
-     return sum(marks)
+     return sum(marks.values())
 
 def calculate_percentage(total,max_marks):
      return (total/max_marks) * 100
@@ -172,40 +172,27 @@ print("Percentage:", percentage)
 
 print("Grade of students:")
 
+# First, determine grade as a variable
 if percentage >= 90:
-     print("Grade: A+")
-
-elif percentage >= 80 and percentage < 90:
-     print("Grade: A")
-
-elif percentage >=70 and percentage < 80:
-     print("Grade B+")     
-elif percentage >=60 and percentage < 70:
-     print("Grade B")     
-elif percentage >=50 and percentage < 60:
-     print("Grade c") 
-elif percentage <50:
-     print("You are failed")     
+    grade = "A+"
+elif percentage >= 80:
+    grade = "A"
+elif percentage >= 70:
+    grade = "B+"
+elif percentage >= 60:
+    grade = "B"
+elif percentage >= 50:
+    grade = "C"
 else:
-     print("Something went wrong")         
+    grade = "Fail"
+student_data = f"Name: {Student_Name}, Roll: {RollNum}, Class: {Student_Class}, Marks: {marks}, Percentage: {percentage:.2f}, Grade: {grade}\n"
+
+with open("student.txt","a") as f:
+     f.write(student_data)
 
 
-"""5. Store Data in a File
+          
 
-Save student info, marks, percentage, and grade in a text file or CSV file.
-
-Each student’s data should be on a new line.
-
-Use file handling concepts (open, write, read)."""
-
-
-
-
-
-
-               
-
-
-
+     
 
 
