@@ -76,11 +76,7 @@ Exit program
 
 Use while loop and menu-driven system.`
 
-8. Handle Errors
 
-Handle wrong inputs like strings instead of numbers for marks.
-
-Handle file errors (like file not found) using try-except blocks.
 
 9. Extra (Optional)
 
@@ -92,27 +88,7 @@ Sort students by percentage.
 
 Use modules like csv or os.
 
-✅ What you’ll cover in Python with this project:
-
-Variables and Data Types
-
-Input/Output
-
-Loops
-
-Conditionals
-
-Functions
-
-OOP (Class & Object)
-
-File Handling
-
-Exception Handling
-
-Lists/Dictionaries
-
-Optional: Modules"""
+"""
 
 
 
@@ -120,79 +96,185 @@ Optional: Modules"""
 
 
 
-Student_Name = input("Enter Student Name: ")
-RollNum = int(input("Enter your RollNumber"))
-Student_Class = input("Enter your class")
-# Grade = float(input("Enter your grade"))
 
-Student ={
-    "Name" : Student_Name,
-    "Roll Number": RollNum,
-    "Class": Student_Class,
-    # "Grade": Grade
+import csv
 
-}
+SUBJECTS = ["Maths", "Science", "Social", "Gk"]
 
-Subjects = ["Maths", "Science", "Social", "Gk"]
-
-marks = {}
-
-for Subject in Subjects:
-    while True:
-        try:
-         score = int(input(f"Enter marks for {Subject} (0-100)"))
-         if 0 <= score <=100:
-            marks[Subject] = score
-            break
-         else:
-            print("Invalid input, Please enter a number between 0 and 100")
-
-        except ValueError:
-                       print("Invalid input, Please enter a number")
-
-#to print marks
-print("\n Marks Entered")
-for Subject, score in marks.items():
-     print(f"{Subject}: {score}")   
-
-
+# ---------------- FUNCTIONS --------------------
 
 def calculate_total(marks):
-     return sum(marks.values())
+    return sum(marks.values())
 
-def calculate_percentage(total,max_marks):
-     return (total/max_marks) * 100
+def calculate_percentage(total, max_marks):
+    return (total / max_marks) * 100
 
-total_marks = calculate_total(marks)
-maxium_marks = len(marks) * 100
-percentage = calculate_percentage(total_marks,maxium_marks)
+def add_student():
+    name = input("Enter Student Name: ")
+    roll = int(input("Enter Roll Number: "))
+    student_class = input("Enter Class: ")
 
-print("Total Marks:", total_marks)
-print("Percentage:", percentage)
+    marks = {}
+    for subject in SUBJECTS:
+        while True:
+            try:
+                score = int(input(f"Enter marks for {subject} (0-100): "))
+                if 0 <= score <= 100:
+                    marks[subject] = score
+                    break
+                else:
+                    print("Invalid input! Enter marks between 0 and 100.")
+            except ValueError:
+                print("Invalid input! Enter a number.")
 
-print("Grade of students:")
+    total = calculate_total(marks)
+    max_marks = len(SUBJECTS) * 100
+    percentage = calculate_percentage(total, max_marks)
 
-# First, determine grade as a variable
-if percentage >= 90:
-    grade = "A+"
-elif percentage >= 80:
-    grade = "A"
-elif percentage >= 70:
-    grade = "B+"
-elif percentage >= 60:
-    grade = "B"
-elif percentage >= 50:
-    grade = "C"
-else:
-    grade = "Fail"
-student_data = f"Name: {Student_Name}, Roll: {RollNum}, Class: {Student_Class}, Marks: {marks}, Percentage: {percentage:.2f}, Grade: {grade}\n"
+    # Assign grade
+    if percentage >= 90:
+        grade = "A+"
+    elif percentage >= 80:
+        grade = "A"
+    elif percentage >= 70:
+        grade = "B+"
+    elif percentage >= 60:
+        grade = "B"
+    elif percentage >= 50:
+        grade = "C"
+    else:
+        grade = "Fail"
 
-with open("student.txt","a") as f:
-     f.write(student_data)
+    student_row = [name, roll, student_class] + [marks[s] for s in SUBJECTS] + [total, round(percentage,2), grade]
 
+    # Write to CSV
+    try:
+        try:
+            with open("students.csv", "r") as f:
+                pass
+        except FileNotFoundError:
+            with open("students.csv", "w", newline="") as f:
+                writer = csv.writer(f)
+                header = ["Name", "Roll", "Class"] + SUBJECTS + ["Total", "Percentage", "Grade"]
+                writer.writerow(header)
 
-          
+        with open("students.csv", "a", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(student_row)
 
-     
+        print("\nStudent added successfully!")
+    except Exception as e:
+        print("Error saving student:", e)
 
+def show_all_students():
+    try:
+        with open("students.csv", "r") as f:
+            reader = csv.reader(f)
+            data = list(reader)
+            if len(data) <= 1:
+                print("No student records found.")
+            else:
+                print("\n--- All Students ---")
+                for row in data:
+                    print(row)
+    except FileNotFoundError:
+        print("No student file found!")
 
+def search_student():
+    key = input("Enter student name or roll number to search: ")
+    found = False
+    try:
+        with open("students.csv", "r") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if row[0].lower() == "name":  # skip header
+                    continue
+                if key.lower() in row[0].lower() or key == row[1]:
+                    print(row)
+                    found = True
+        if not found:
+            print("No student found with that detail.")
+    except FileNotFoundError:
+        print("No student file found!")
+
+# ---------------- EXTRA FEATURES --------------------
+
+def class_average():
+    try:
+        with open("students.csv", "r") as f:
+            reader = csv.reader(f)
+            next(reader)  # skip header
+            percentages = [float(row[-2]) for row in reader]
+            if len(percentages) == 0:
+                print("No student data to calculate average.")
+                return
+            avg = sum(percentages) / len(percentages)
+            print(f"Class Average Percentage: {avg:.2f}%")
+    except FileNotFoundError:
+        print("No student file found!")
+
+def highest_lowest():
+    try:
+        with open("students.csv", "r") as f:
+            reader = csv.reader(f)
+            next(reader)
+            data = list(reader)
+            if not data:
+                print("No student data available.")
+                return
+            data_sorted = sorted(data, key=lambda x: float(x[-2]), reverse=True)
+            print("Highest Percentage:")
+            print(data_sorted[0])
+            print("Lowest Percentage:")
+            print(data_sorted[-1])
+    except FileNotFoundError:
+        print("No student file found!")
+
+def sort_by_percentage():
+    try:
+        with open("students.csv", "r") as f:
+            reader = csv.reader(f)
+            header = next(reader)
+            data = list(reader)
+            if not data:
+                print("No student data available.")
+                return
+            data_sorted = sorted(data, key=lambda x: float(x[-2]), reverse=True)
+            print("\n--- Students Sorted by Percentage (High to Low) ---")
+            print(header)
+            for row in data_sorted:
+                print(row)
+    except FileNotFoundError:
+        print("No student file found!")
+
+# ---------------- MENU SYSTEM --------------------
+
+while True:
+    print("\n----- Menu Driven -----")
+    print("1: Add a new student")
+    print("2: Show all students")
+    print("3: Search a student")
+    print("4: Class Average")
+    print("5: Highest & Lowest Percentage")
+    print("6: Sort Students by Percentage")
+    print("7: Exit program")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        add_student()
+    elif choice == "2":
+        show_all_students()
+    elif choice == "3":
+        search_student()
+    elif choice == "4":
+        class_average()
+    elif choice == "5":
+        highest_lowest()
+    elif choice == "6":
+        sort_by_percentage()
+    elif choice == "7":
+        print("Exiting program...")
+        break
+    else:
+        print("Invalid choice! Please try again.")
