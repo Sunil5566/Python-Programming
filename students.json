@@ -1,0 +1,28 @@
+[
+    {
+        "Name": "Sunil",
+        "Marks": [
+            67,
+            78,
+            87,
+            98,
+            99
+        ],
+        "Obtained Marks": 429,
+        "Percentage": 85.8,
+        "Grade": "B"
+    },
+    {
+        "Name": "Rashmi",
+        "Marks": [
+            78,
+            98,
+            89,
+            89,
+            89
+        ],
+        "Obtained Marks": 443,
+        "Percentage": 88.6,
+        "Grade": "B"
+    }
+]
