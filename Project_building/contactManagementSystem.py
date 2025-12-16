@@ -38,6 +38,27 @@ class ContactManager():
         self.save_data()
         print("Student added successfully")
 
+    def View_Contact(self):
+        if not self.People:
+              print("No student data found")
+              return
+        
+        for index, people in enumerate(self.People, start = 1):
+            print(f"\n Student{index}")
+
+            for key,value in people.items():
+                print(f"{key} : {value}")
+
+
+    def Search_Contact(self):
+         if self.People:
+                       
+
+
+
+
+               
+        
         
         
     
