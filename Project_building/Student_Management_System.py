@@ -7,6 +7,7 @@ class StudentManager:
         self.filename = filename
         self.Students = []
         self.load_data()
+        self.save_data()
 
     def load_data(self):
         if os.path.exists(self.filename):
