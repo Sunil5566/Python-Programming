@@ -8,20 +8,12 @@ Video = os.path.join(folder_path, "Videos")
 Documents = os.path.join(folder_path, "Documents")
 Others = os.path.join(folder_path, "Others")
 
-if not os.path.exists(folder_path):
-    os.mkdir(folder_path)
 
-if not os.path.exists(Image):
-    os.mkdir(Image)
+folders = [folder_path, Image, Video, Documents, Others]
 
-if not os.path.exists(Video):
-    os.mkdir(Video)
-
-if not os.path.exists(Documents):
-    os.mkdir(Documents)
-
-if not os.path.exists(Others):
-    os.mkdir(Others)
+for fol in folders:
+    if not os.path.exists(fol):
+        os.mkdir(fol)
 
 # To check if any file is in inside folder or not
 
@@ -79,18 +71,29 @@ for f in file:
         ".md",
     ]
 
-    if extension.lower() in image_extensions:
-        source_path = os.path.join(folder_path, f)
-        destination_path = os.path.join(Image, f)
+    ext = extension.lower()
 
-        if os.path.exists(destination_path):
+    if ext in image_extensions:
+        target_folder = Image
+    elif ext in video_extensions:
+        target_folder = Video
+    elif ext in document_extensions:
+        target_folder = Documents
+    else:
+        target_folder = Others          
 
-            counter = 1
-            new_name = f"{name}_{counter}{extension}"
 
-            while os.path.exists(os.path.join(Image, new_name)):
-                counter += 1
-                new_name = f"{name}_{counter}{extension}"
+    source_path = os.path.join(folder_path,f)
+    destination_path = os.path.join(target_folder,f)
 
-            destination_path = os.path.join(Image, new_name)
-        os.rename(source_path, destination_path)
+    if os.path.exists(destination_path):
+        counter = 1
+        new_file = f"{name}_{counter}{extension}"
+
+        while os.path.exists(os.path.join(target_folder,new_file)):
+            counter += 1
+            new_file = f"{name}_{counter}{extension}"
+
+        destination_path = os.path.join(target_folder,new_file)
+
+    os.rename(source_path, destination_path)               
