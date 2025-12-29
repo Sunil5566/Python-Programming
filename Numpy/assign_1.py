@@ -24,16 +24,21 @@ print(data[data[:, 4] == 1])
 
 
 # 4️⃣ Print Math & Physics of students who failed
-failed = data[data[:, 4]] == 0
+failed = data[data[:, 4] == 0]
 print(failed[:, 0:2])
 
 
 
 # 5️⃣ Print average marks of all passed students
+passed = data[data[:, 4] == 1]
+average = np.mean(passed[:, 0:4])
+print(average)
 
 
 
 # 6️⃣ Add 5 bonus marks to English subject of only passed students
+
+
 
 
 # 7️⃣ Print students whose Math > 60 AND Physics > 70

@@ -1,0 +1,5 @@
+f = open (r"Python Basics\FileI\o\demo.txt", "r")
+data = f.read()
+print(data)
+print(type(data))
+f.close()
