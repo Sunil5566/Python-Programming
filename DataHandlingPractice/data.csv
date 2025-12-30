@@ -1,0 +1,11 @@
+CustomerID,Name,Age,Gender,Email,JoinDate,TotalPurchase,LastPurchaseDate,City
+101,Alice,25,F,alice@email.com,2023-01-10,1200,2023-12-01,New York
+102,Bob,,M,bob@email.com,2023-02-05,800,2023-11-15,Los Angeles
+103,Charlie,35,,charlie@email.com,2023-03-20,,2023-12-20,Chicago
+104,David,28,M,,2023-04-18,450,,Houston
+105,Eva,30,F,eva@email.com,,900,2023-11-30,New York
+106,Frank,,M,frank@email.com,2023-05-12,600,2023-12-05,
+107,Grace,27,F,grace@email.com,2023-06-25,,,
+108,Hannah,32,,hannah@email.com,2023-07-15,1300,2023-12-22,Chicago
+109,Ian,29,M,ian@email.com,2023-08-05,700,,Houston
+110,Julia,,F,,2023-09-10,1100,2023-12-28,New York
